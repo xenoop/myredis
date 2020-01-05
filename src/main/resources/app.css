@@ -1,0 +1,46 @@
+.bg-pattern {
+    -fx-background-color:#4d5052;
+    -fx-background-image: url("seamless_paper_texture.png");
+    -fx-background-repeat: repeat;
+    -fx-background-position: center center;
+}
+
+.logo-title {
+    -fx-font-size: 12pt;
+    -fx-font-family: 'Verdana', monospace;
+}
+
+.title-label {
+    -fx-font-size: 11pt;
+    -fx-font-family: 'Verdana', monospace;
+    -fx-padding: 0 0 10 0;
+}
+
+.server-info-label {
+    -fx-font-size: 12pt;
+    -fx-font-family: 'Verdana', monospace;
+    -fx-padding: 20 0 10 0;
+}
+
+.redis-key {
+    -fx-border-insets: 3px;
+    -fx-background-insets: 3px;
+    -fx-background-color:#4d5052;
+    -fx-text-inner-color: #fafafa;
+}
+
+.redis-value {
+    -fx-border-insets: 3px;
+    -fx-background-insets: 3px;
+    -fx-text-inner-color: #a4afba;
+    -fx-background-color: #4d5052;
+}
+
+.redis-value .content {
+    -fx-background-color: #4d5052;
+    -fx-padding: 3 3 60 3;
+}
+
+.redis-server-info {
+    -fx-max-height: 100;
+}
