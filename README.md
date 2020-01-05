@@ -1,5 +1,5 @@
 # myRedis
-Simple Redis UI client built using JavaFX. [Jedis](https://github.com/xetorthio/jedis) client is used to connect to Redis.
+Simple Redis UI client built using JavaFX. [Jedis](https://github.com/xenoop/myredis) client is used to connect to Redis.
 
 ## Features
 - Get list of keys (this uses jedis.keys which is blocking)
