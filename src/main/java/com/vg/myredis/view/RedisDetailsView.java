@@ -51,7 +51,6 @@ public class RedisDetailsView extends VBox implements Initializable {
     private TextField valuefield;
 
 
-
     @FXML
     private SplitPane splitView;
 
@@ -166,17 +165,25 @@ public class RedisDetailsView extends VBox implements Initializable {
             }
         });
     }
-    public void addKeyValue(){
+
+    public void addKeyValue() {
         String key = keyfield.getText();
         String value = valuefield.getText();
-        redisService.setKey(key,value);
+        redisService.setKey(key, value);
         this.loadRedisKeys();
     }
+
     public void LookUpKey() {
         String key = lookUpField.getText();
         String value = redisService.getKey(key);
         if (value != "") keyValue.setText(value);
         else keyValue.setText("Key Value Doesn't Exist !");
 
+    }
+
+    public void deleteKey() {
+        String key = redisKeysTree.getSelectionModel().getSelectedItem().toString();
+        redisService.deleteKey(key);
+        this.loadRedisKeys();
     }
 }

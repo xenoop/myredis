@@ -58,6 +58,9 @@ public class RedisService {
         }
         return prettyJson;
     }
+    public Long deleteKey(String key){
+        return jedis.del(key);
+    }
 
     public String setKey(String key, String value) {
         return jedis.set(key, value);
