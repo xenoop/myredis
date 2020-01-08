@@ -26,6 +26,9 @@ import java.util.Set;
  * Redis details view shows keys and redis server stats
  */
 public class RedisDetailsView extends VBox implements Initializable {
+    /**
+     * l'instance des differentes composantes de la page (coté graphique avec javafx)
+     */
     @FXML
     Parent root;
 
@@ -48,7 +51,7 @@ public class RedisDetailsView extends VBox implements Initializable {
     private TextField keyfield;
 
     @FXML
-    private TextField valuefield;
+    private TextArea valuefield;
 
 
     @FXML
@@ -56,6 +59,12 @@ public class RedisDetailsView extends VBox implements Initializable {
 
     private RedisService redisService;
 
+    /**
+     * l'instance de la page avec le service de redis
+     * @param root
+     * @param redisService
+     * @throws IOException
+     */
     public RedisDetailsView(Parent root, RedisService redisService) throws IOException {
         this.redisService = redisService;
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../../../../redis_details_view.fxml"));
@@ -66,66 +75,6 @@ public class RedisDetailsView extends VBox implements Initializable {
         Pane view = fxmlLoader.load();
         root.getScene().setRoot(view);
     }
-
-    /**
-     * File > New connection menu
-     *
-     * @param actionEvent
-     */
-    public void showMainScreen(ActionEvent actionEvent) throws IOException {
-        redisService.close(); // We need to close connection before opening a new one
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../../../../main_screen.fxml"));
-        Pane view = fxmlLoader.load();
-        root.getScene().setRoot(view);
-    }
-
-    /**
-     * File > Exit
-     *
-     * @param actionEvent
-     */
-    public void closeApplication(ActionEvent actionEvent) {
-        Platform.exit();
-    }
-
-    /**
-     * View redis stats
-     *
-     * @param actionEvent
-     */
-//    public void showServerInfo(ActionEvent actionEvent) {
-//        String info = redisService.getInfo("server");
-//        redisServerInfo.setText(info);
-//    }
-//
-//    public void showClusterInfo(ActionEvent actionEvent) {
-//        String info = redisService.getInfo("cluster");
-//        redisServerInfo.setText(info);
-//    }
-//
-//    public void showClientInfo(ActionEvent actionEvent) {
-//        String info = redisService.getInfo("clients");
-//        redisServerInfo.setText(info);
-//    }
-//
-//    public void showStatsInfo(ActionEvent actionEvent) {
-//        String info = redisService.getInfo("stats");
-//        redisServerInfo.setText(info);
-//    }
-
-    /**
-     * About menu
-     *
-     * @param actionEvent
-     */
-    public void showAboutDialog(ActionEvent actionEvent) {
-        Alert aboutDialog = new Alert(Alert.AlertType.INFORMATION);
-        aboutDialog.setTitle("myRedis - About");
-        aboutDialog.setHeaderText(null);
-        aboutDialog.setContentText("Simple Redis UI client\nAuthor: Memphisvl github.com/memphisvl");
-        aboutDialog.show();
-    }
-
     /**
      * Button handlers
      *
@@ -134,15 +83,20 @@ public class RedisDetailsView extends VBox implements Initializable {
     public void refreshKeys(ActionEvent actionEvent) {
         loadRedisKeys();
     }
-
+    /**
+     * les instructions à executer lors du loading de la page , on va appeler les clés existantes dans la base redis
+     * @param location
+     * @param resources
+     */
     public void initialize(URL location, ResourceBundle resources) {
         splitView.setDividerPosition(0, .35d);
         redisKey.setText("Select key...");
-
         loadRedisKeys();
 //        showServerInfo(null);
     }
-
+    /**
+     * l'appel des methodes qui se trouve dans la base redis
+     */
     private void loadRedisKeys() {
         String keysInfo = redisService.getKeysInfo();
         Set<String> allKeys = redisService.getAllKeys();
@@ -166,14 +120,19 @@ public class RedisDetailsView extends VBox implements Initializable {
         });
     }
 
+    /**
+     * l'ajout d'un key value dans la base
+     */
+
     public void addKeyValue() {
         String key = keyfield.getText();
         String value = valuefield.getText();
         redisService.setKey(key, value);
         this.loadRedisKeys();
     }
-
-    public void LookUpKey() {
+    /**
+     * La recherche d'une clé valeur
+     */    public void LookUpKey() {
         String key = lookUpField.getText();
         String value = redisService.getKey(key);
         if (value != "") keyValue.setText(value);
@@ -181,6 +140,9 @@ public class RedisDetailsView extends VBox implements Initializable {
 
     }
 
+    /**
+     * La supression d'une clé valeur
+     */
     public void deleteKey() {
         String key = redisKeysTree.getSelectionModel().getSelectedItem().toString();
         redisService.deleteKey(key);

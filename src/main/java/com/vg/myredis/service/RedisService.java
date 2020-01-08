@@ -16,16 +16,29 @@ public class RedisService {
     private Jedis jedis;
     private Gson gson;
 
+
+    /**
+     * instance de la connexion à la base de données
+     * @param hostname
+     * @param port
+     */
     public RedisService(String hostname, int port) {
         this.hostname = hostname;
         this.jedis = new Jedis(hostname, port);
         this.gson = new GsonBuilder().setPrettyPrinting().create();
     }
 
+    /**
+     * on ping la base pour savoir si la connexion est bien établie
+     * @return
+     */
     public String ping() {
         return jedis.ping();
     }
 
+    /**
+     * on ferme la connexion
+     */
     public void close() {
         jedis.close();
     }
@@ -39,7 +52,12 @@ public class RedisService {
         return jedis.keys("*");
     }
 
-
+    /**
+     * this method gets a value from redis using a certain key
+     *
+     * @param key : the key of the value / la clé qu'on va utiliser pour accéder a une valeur
+     * @return the value of that certain key / la valeur qu'on veut acceder.
+     */
 
     public String getKey(String key) {
         String keyValue = jedis.get(key);
@@ -58,14 +76,31 @@ public class RedisService {
         }
         return prettyJson;
     }
+
+    /**
+     * cette methode supprime un cle
+     * @param key
+     * @return
+     */
     public Long deleteKey(String key){
         return jedis.del(key);
     }
 
+    /**
+     *  cette methode ajoute une cle valeur dans la base redis
+     * @param key
+     * @param value
+     * @return
+     */
     public String setKey(String key, String value) {
         return jedis.set(key, value);
     }
 
+
+    /**
+     * cette methode retourne les differentes informationbs sur les clés existantes dans la base
+     * @return
+     */
     public String getKeysInfo() {
         String redisKeysInfo = jedis.info("keyspace");
         String[] infoParts = redisKeysInfo.split(",");
@@ -76,13 +111,5 @@ public class RedisService {
             }
         }
         return " 0 keys found";
-    }
-
-    public String getInfo(String section) {
-        return jedis.info(section);
-    }
-
-    public String getHostname() {
-        return hostname;
     }
 }
